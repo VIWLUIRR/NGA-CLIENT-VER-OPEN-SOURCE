@@ -35,8 +35,8 @@ public class NgaClientApp extends Application {
 
     @Override
     public void onCreate() {
-        initLogger();
         ContextUtils.setApplication(this);
+        initLogger();
         PreferenceUtils.transfer(this);
         checkNewVersion();
         VersionUpgradeHelper.upgrade();
@@ -52,7 +52,8 @@ public class NgaClientApp extends Application {
     }
 
     private void initLogger() {
-        Logger.getInstance().d(TAG, "app nga android start");
+        Logger.setBuildDebugMode(BuildConfig.DEBUG);
+        Logger.d(TAG, "app nga android start");
         NLog.setDebug(BuildConfig.DEBUG);
     }
 

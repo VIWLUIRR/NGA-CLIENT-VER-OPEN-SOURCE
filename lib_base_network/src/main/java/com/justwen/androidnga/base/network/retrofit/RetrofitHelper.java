@@ -9,7 +9,7 @@ import com.justwen.androidnga.base.network.retrofit.converter.JsonStringConvertF
 
 import java.net.URLDecoder;
 
-import gov.anzong.androidnga.base.debug.Debugger;
+import gov.anzong.androidnga.base.logger.Logger;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.base.util.StringUtils;
@@ -134,7 +134,7 @@ public class RetrofitHelper {
         });
         builder.addInterceptor(chain -> {
             Request request = chain.request();
-            Debugger.collectRequest(request);
+            Logger.d(request.toString());
             return chain.proceed(request);
         });
         return builder;

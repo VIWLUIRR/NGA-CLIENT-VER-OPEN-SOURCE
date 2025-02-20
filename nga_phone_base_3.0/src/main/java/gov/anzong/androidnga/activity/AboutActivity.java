@@ -11,14 +11,16 @@ import androidx.annotation.Nullable;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
+import com.justwen.androidnga.base.activity.ARouterConstants;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.base.debug.Debugger;
 import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
+import sp.phone.util.ARouterUtils;
 import sp.phone.util.FunctionUtils;
 
 public class AboutActivity extends MaterialAboutActivity {
@@ -91,7 +93,12 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("代码")
                 .subText("[@竹井詩織里]/[@cfan8]/[@jjimmys]\n[@Moandor]/[@Elrond]/[@Justwen]")
-                .setOnLongClickAction(Debugger::toggleDebugMode)
+                .setOnLongClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        ARouterUtils.navigation(ARouterConstants.ACTIVITY_DEBUG);
+                    }
+                })
                 .icon(R.drawable.ic_code)
                 .build());
 
