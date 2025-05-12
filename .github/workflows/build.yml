@@ -38,7 +38,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: nga_phone_base_3.0-signed.apk
-        path: nga_phone_base_3.0/build/outputs/apk/debug/nga_phone_base_3.0-signed.apk
+        path: nga_phone_base_3.0/build/outputs/apk/debug/nga_phone_base_3.0-debug-signed.apk
         if-no-files-found: error
     - name: Setup TMate Session
       uses: mxschmitt/action-tmate@v3
