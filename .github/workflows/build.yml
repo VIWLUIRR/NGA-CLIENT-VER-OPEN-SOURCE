@@ -40,3 +40,4 @@ jobs:
         if-no-files-found: error
     - name: Setup TMate Session
       uses: mxschmitt/action-tmate@v3
+      if: ${{ failure() }}
