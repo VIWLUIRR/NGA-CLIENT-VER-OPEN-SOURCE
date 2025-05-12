@@ -22,13 +22,12 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-      with:
-        gradle-version: current
-        arguments: assembleRelease
+    - name: Build APK
+      run: ./gradlew assembleDebug
     - uses: r0adkll/sign-android-release@v1
       id: sign_app
       with:
-        releaseDirectory: app/build/outputs/apk/release
+        releaseDirectory: nga_phone_base_3.0/build/outputs/apk/debug/
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -37,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: nga_phone_base_3.0-signed.apk
-        path: nga_phone_base_3.0/build/outputs/apk/signed/nga_phone_base_3.0-signed.apk
+        path: nga_phone_base_3.0/build/outputs/apk/debug/nga_phone_base_3.0-signed.apk
         if-no-files-found: error
     - name: Setup TMate Session
       uses: mxschmitt/action-tmate@v3
