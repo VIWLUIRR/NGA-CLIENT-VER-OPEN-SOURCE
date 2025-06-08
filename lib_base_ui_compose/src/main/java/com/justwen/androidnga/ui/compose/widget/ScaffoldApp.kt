@@ -74,25 +74,35 @@ fun TopAppBarEx(
     val top = paddingValues.calculateTopPadding()
     val pxValue = with(LocalDensity.current) { top.toPx() }
 
-    TopAppBar(backgroundColor = MaterialTheme.colors.primary, windowInsets = WindowInsets(0, pxValue.toInt(),0,0) , title = {
-        Text(topAppBarData.title)
-    }, navigationIcon = {
-        IconButton(onClick = {
-            topAppBarData.navigationIconAction?.invoke()
-        }) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Localized description"
-            )
-        }
-    }, actions = {
-        OptionActionMenu(optionActions = topAppBarData.optionMenuData)
-    })
+    TopAppBar(
+        backgroundColor = MaterialTheme.colors.primary,
+        windowInsets = WindowInsets(0, pxValue.toInt(), 0, 0),
+        title = {
+            if (topAppBarData.customTopBar == null) {
+                Text(topAppBarData.title)
+            } else {
+                topAppBarData.customTopBar!!.invoke()
+            }
+        },
+        navigationIcon = {
+            IconButton(onClick = {
+                topAppBarData.navigationIconAction?.invoke()
+            }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Localized description"
+                )
+            }
+        },
+        actions = {
+            OptionActionMenu(optionActions = topAppBarData.optionMenuData)
+        })
 }
 
 data class TopAppBarData(val title: String) {
     var navigationIconAction: (() -> Unit)? = null
     var optionMenuData: List<OptionMenuData>? = null
+    var customTopBar: @Composable (() -> Unit)? = null
 }
 
 data class OptionMenuData(

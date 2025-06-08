@@ -18,7 +18,7 @@ import sp.phone.ui.fragment.SearchHistoryBoardFragment;
 import sp.phone.ui.fragment.SearchHistoryTopicFragment;
 import sp.phone.ui.fragment.SearchHistoryUserFragment;
 
-@Route(path = ARouterConstants.ACTIVITY_SEARCH)
+
 public class SearchActivity extends BaseActivity {
 
     public static final String SEARCH_MODE_USER = "1";
