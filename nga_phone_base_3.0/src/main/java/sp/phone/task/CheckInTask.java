@@ -30,7 +30,7 @@ public class CheckInTask {
     private static final String CHECK_IN_URL = Utils.getNGAHost() + "nuke.php?__lib=check_in&__act=check_in&lite=js";
 
     public static void autoCheckIn(Context context) {
-        if (!PreferenceUtils.getData(context.getString(R.string.pref_auto_check_in), false)) {
+        if (!PreferenceUtils.getData(context.getString(gov.anzong.androidnga.common.R.string.pref_auto_check_in), false)) {
             return;
         }
         checkIn(true);

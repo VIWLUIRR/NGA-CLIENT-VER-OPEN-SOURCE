@@ -19,9 +19,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:8.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.alibaba:arouter-register:1.0.2"
     }
 }
 
@@ -43,7 +42,7 @@ task clean(type: Delete) {
 project.ext {
     minSdkVersion = 29
     targetSdkVersion = 35
-    compileSdkVersion = 34
+    compileSdkVersion = 35
     appVersionName = '4.1.0'
     appVersionCode = 4010
 

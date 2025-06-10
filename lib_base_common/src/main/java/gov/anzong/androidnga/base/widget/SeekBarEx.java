@@ -24,7 +24,7 @@ public class SeekBarEx extends SignSeekBar {
 
     public SeekBarEx(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SignSeekBar, defStyleAttr, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, com.zhouyou.view.seekbar.R.styleable.SignSeekBar, defStyleAttr, 0);
         int thumbRadiusOnDragging = a.getDimensionPixelSize(com.zhouyou.view.seekbar.R.styleable.SignSeekBar_ssb_thumb_radius_on_dragging, 0);
         if (thumbRadiusOnDragging != 0) {
             try {

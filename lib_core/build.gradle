@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'gov.anzong.androidnga.core'
     compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
@@ -21,8 +22,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 

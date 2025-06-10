@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.justwen.androidnga.cloud'
     compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
@@ -20,6 +21,10 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 

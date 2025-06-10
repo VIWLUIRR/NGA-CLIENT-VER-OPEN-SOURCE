@@ -29,7 +29,7 @@ public class SettingsLabFragment extends BasePreferenceFragment {
     }
 
     private void initDebugPreference() {
-        SwitchPreference preference = findPreference(getString(R.string.pref_local_debug_switch));
+        SwitchPreference preference = findPreference(getString(gov.anzong.androidnga.common.R.string.pref_local_debug_switch));
         if (preference == null) {
             return;
         }
@@ -50,7 +50,7 @@ public class SettingsLabFragment extends BasePreferenceFragment {
     }
 
     private void initCheckInPreference() {
-        Preference preference = findPreference(getString(R.string.pref_check_in));
+        Preference preference = findPreference(getString(gov.anzong.androidnga.common.R.string.pref_check_in));
         if (preference != null) {
             preference.setOnPreferenceClickListener(preference1 -> {
                 CheckInTask.checkIn(false);
