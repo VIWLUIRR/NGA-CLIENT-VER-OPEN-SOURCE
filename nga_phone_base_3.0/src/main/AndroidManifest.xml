@@ -72,9 +72,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/menu_setting"
             android:launchMode="singleTop" />
-        <activity
-            android:name=".activity.MessageDetailActivity"
-            android:label="@string/label_activity_message_detail" />
 
         <activity
             android:name=".activity.TopicListActivity"
