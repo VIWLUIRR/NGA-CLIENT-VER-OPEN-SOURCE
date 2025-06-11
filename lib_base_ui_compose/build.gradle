@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.justwen.androidnga.ui.compose'
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion
@@ -32,13 +32,13 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.10'
+        kotlinCompilerExtensionVersion compose_compile_version
     }
 }
 
 dependencies {
 
-    api 'androidx.activity:activity-compose:1.9.0'
+    api "androidx.activity:activity-compose:$compose_activity_version"
     api "androidx.compose.ui:ui:$compose_ui_version"
     api "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     api "androidx.compose.material:material:$compose_version"

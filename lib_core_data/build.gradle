@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.justwen.androidnga.core.data'
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion

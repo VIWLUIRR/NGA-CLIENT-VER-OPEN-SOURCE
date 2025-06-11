@@ -6,7 +6,7 @@ plugins {
 android {
     namespace 'gov.anzong.androidnga.common'
 
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion

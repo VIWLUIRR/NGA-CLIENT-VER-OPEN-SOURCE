@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'com.justwen.androidnga.module.debug'
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion
@@ -40,7 +40,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.10'
+        kotlinCompilerExtensionVersion compose_compile_version
     }
 }
 

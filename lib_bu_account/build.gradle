@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.justwen.androidnga.module.account'
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion
@@ -31,4 +31,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.alibaba:arouter-api:1.5.2'
     implementation project(':lib_base_service_api')
+
+    implementation project(':lib_base_ui_compose')
 }
