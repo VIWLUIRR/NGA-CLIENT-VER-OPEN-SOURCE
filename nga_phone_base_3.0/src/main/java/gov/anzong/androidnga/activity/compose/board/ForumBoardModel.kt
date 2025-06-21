@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.core.board
+package gov.anzong.androidnga.activity.compose.board
 
 import com.alibaba.fastjson.JSON
 import gov.anzong.androidnga.base.util.ContextUtils
@@ -12,22 +12,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Collections
 
-object BoardManager {
+class ForumBoardModel {
 
     private lateinit var boardList: MutableList<BoardEntity>
 
-    private lateinit var bookmark: BoardEntity
+    lateinit var bookmark: BoardEntity
 
     private val boardMap: HashMap<String, BoardEntity> = HashMap()
 
     private val saveTask = kotlinx.coroutines.Runnable {
         CoroutineScope(Dispatchers.IO).launch {
-            BoardLocalRepository.writeBoardList(ContextUtils.getContext(), boardList)
+            ForumBoardRepository.writeBoardList(
+                ContextUtils.getContext(),
+                boardList.toMutableList()
+            )
         }
     }
 
     init {
-        boardList = BoardLocalRepository.getBoardList(ContextUtils.getContext())
+        boardList = ForumBoardRepository.loadLocalBoardList(ContextUtils.getContext())
         boardList.forEach {
             initBoardData(it)
         }
@@ -50,20 +53,28 @@ object BoardManager {
         return boardList
     }
 
-    fun addBookmarkBoard(boardEntity: BoardEntity): Boolean {
-        return if (!bookmark.children!!.contains(boardEntity)) {
+    fun addBookmarkBoard(fid: Int, stid: Int): Int {
+        val id = computeBoardId(fid, stid)
+        val boardEntity = boardMap[id]
+        if (boardEntity != null && !bookmark.children!!.contains(boardEntity)) {
             bookmark.children!!.add(boardEntity)
-        } else {
-            false
+            saveData()
         }
+        return bookmark.children!!.size
     }
 
-    fun removeBookmarkBoard(boardEntity: BoardEntity): Boolean {
-        return bookmark.children!!.remove(boardEntity)
+    fun removeBookmarkBoard(fid: Int, stid: Int): Int {
+        val id = computeBoardId(fid, stid)
+        val boardEntity = boardMap[id]
+        if (boardEntity != null) {
+            bookmark.children!!.remove(boardEntity)
+            saveData()
+        }
+        return bookmark.children!!.size
     }
 
     private fun transferBookmarkBoards() {
-        if (bookmark.children?.isEmpty() == true) {
+        if (!bookmark.children.isNullOrEmpty()) {
             return
         }
         val bookmarkJson = PreferenceUtils.getData(PreferenceKey.BOOKMARK_BOARD, "")
@@ -74,16 +85,36 @@ object BoardManager {
 
         bookmarks.forEach {
             val boardEntity = BoardEntity()
-            boardEntity.fid = it.fid.toString()
+            boardEntity.fid = it.fid
             boardEntity.name = it.name.toString()
             if (it.stid != 0) {
-                boardEntity.stid = it.stid.toString()
+                boardEntity.stid = it.stid
             }
-            BoardLocalRepository.checkBoardData(boardEntity, bookmark)
+            checkBoardData(boardEntity, bookmark)
             bookmark.children!!.add(boardEntity)
         }
         saveData(true)
-        PreferenceUtils.putData(PreferenceKey.BOOKMARK_BOARD, "")
+        //PreferenceUtils.putData(PreferenceKey.BOOKMARK_BOARD, "")
+    }
+
+    private fun computeBoardId(fid: Int, stid: Int): String {
+        var id = ""
+        if (fid != 0) {
+            id = fid.toString()
+        }
+        if (stid != 0) {
+            id = id + "_" + stid
+        }
+        return id
+    }
+
+    private fun checkBoardData(board: BoardEntity, parent: BoardEntity?) {
+        if (board.parentId.isNullOrEmpty()) {
+            board.parentId = parent?.id
+        }
+        if (board.id.isEmpty()) {
+            board.id = computeBoardId(board.fid, board.stid)
+        }
     }
 
     fun swapBookmark(from: Int, to: Int) {

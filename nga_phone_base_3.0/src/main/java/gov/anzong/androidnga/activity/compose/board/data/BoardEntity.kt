@@ -12,9 +12,9 @@ class BoardEntity : JavaBean {
     @BoardType
     var type: Int = BoardType.BOARD
 
-    var fid: String? = null
+    var fid: Int = 0
 
-    var stid: String? = null
+    var stid: Int = 0
 
     // 父板块id
     var parentId: String? = null
