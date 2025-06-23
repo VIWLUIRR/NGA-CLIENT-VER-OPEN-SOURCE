@@ -2,8 +2,12 @@ package gov.anzong.androidnga.activity.compose.board
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import gov.anzong.androidnga.arouter.ARouterConstants
 import gov.anzong.androidnga.core.board.data.BoardEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import sp.phone.param.ParamKey
 import sp.phone.util.ARouterUtils
 
@@ -46,5 +50,17 @@ object ForumBoardViewModel : ViewModel() {
             .withInt(ParamKey.KEY_STID, stid)
             .withString(ParamKey.KEY_TITLE, board.name)
             .navigation()
+    }
+
+    fun mergeRemoteBoardList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val job = async {
+                return@async forumBoardModel.loadIncrementalBoardList()
+            }
+            val result = job.await()
+            if (result.isNotEmpty()) {
+                forumBoardModel.mergeBoardList(result)
+            }
+        }
     }
 }

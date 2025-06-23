@@ -109,7 +109,7 @@ class ForumBoardModel {
             if (it.stid != 0) {
                 boardEntity.stid = it.stid
             }
-            generateBoardId(boardEntity.fid, boardEntity.stid, bookmarkBoard.id)
+            boardEntity.id = generateBoardId(boardEntity.fid, boardEntity.stid).toString()
             bookmarkBoard.children!!.add(boardEntity)
         }
         saveData(true)
@@ -149,6 +149,40 @@ class ForumBoardModel {
         if (!ThreadUtils.hasRunnable(saveTask)) {
             ThreadUtils.postOnMainThreadDelay(saveTask, delayTime.toLong())
         }
+    }
+
+    suspend fun loadIncrementalBoardList(): List<BoardEntity> {
+        val forumsListBean = ForumBoardRepository.loadRemoteBoardList(ContextUtils.getContext())
+        val addChildList: MutableList<BoardEntity> = mutableListOf()
+        forumsListBean.result?.forEach {
+            it.groups?.forEach { it ->
+                val groupId = it.id
+                it.forums?.forEach { child ->
+                    generateBoardId(child.id, child.stid)?.let { it ->
+                        if (!boardMap.contains(it)) {
+                            val boardEntity = BoardEntity().apply {
+                                id = it
+                                fid = child.id
+                                stid = child.stid
+                                parentId = groupId
+                                name = child.name!!
+                            }
+                            addChildList.add(boardEntity)
+                        }
+                    }
+                }
+            }
+        }
+        return addChildList
+    }
+
+    fun mergeBoardList(addChildList: List<BoardEntity>) {
+        addChildList.forEach {
+            boardMap[it.id] = it
+            val parent = boardMap[it.parentId]
+            parent?.children?.add(it)
+        }
+        saveData()
     }
 
 }
