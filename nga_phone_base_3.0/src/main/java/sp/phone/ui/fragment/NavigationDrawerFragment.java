@@ -28,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.compose.board.ForumBoardView;
+import gov.anzong.androidnga.activity.compose.board.ForumBoardViewModel;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.widget.ViewFlipperEx;
 import gov.anzong.androidnga.common.PreferenceKey;
@@ -176,7 +177,10 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("是否要清空我的收藏？")
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> mPresenter.clearRecentBoards())
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    mPresenter.clearRecentBoards();
+                    ForumBoardViewModel.INSTANCE.removeAllBookmarkBoard();
+                })
                 .create()
                 .show();
     }

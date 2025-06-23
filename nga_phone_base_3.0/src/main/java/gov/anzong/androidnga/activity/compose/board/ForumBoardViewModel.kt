@@ -17,19 +17,25 @@ object ForumBoardViewModel : ViewModel() {
 
     init {
         boardLiveData.postValue(forumBoardModel.loadBoardData())
-        bookmarkSizeLiveData.postValue(forumBoardModel.bookmark.children?.size)
+        bookmarkSizeLiveData.postValue(forumBoardModel.bookmarkBoard.children?.size)
     }
 
     fun getBoardData(index: Int = 0): BoardEntity {
         return boardLiveData.value!![index]
     }
 
-    fun addBookmarkBoard(fid: Int, stid: Int) {
-        bookmarkSizeLiveData.value = forumBoardModel.addBookmarkBoard(fid, stid)
+    fun addBookmarkBoard(name: String, fid: Int, stid: Int) {
+        bookmarkSizeLiveData.value = forumBoardModel.addBookmarkBoard(name, fid, stid)
     }
 
     fun removeBookmarkBoard(fid: Int, stid: Int) {
         bookmarkSizeLiveData.value = forumBoardModel.removeBookmarkBoard(fid, stid)
+    }
+
+    fun removeAllBookmarkBoard() {
+        forumBoardModel.removeAllBookmarkBoard()?.let {
+            bookmarkSizeLiveData.value = it
+        }
     }
 
     fun showTopicList(board: BoardEntity) {

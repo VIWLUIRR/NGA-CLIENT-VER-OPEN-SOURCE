@@ -165,7 +165,7 @@ public class TopicListFragment extends TopicSearchFragment {
                 mPresenter.addBookmarkBoard(board);
                 item.setVisible(false);
                 mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-                ForumBoardViewModel.INSTANCE.addBookmarkBoard(mRequestParam.fid,mRequestParam.stid);
+                ForumBoardViewModel.INSTANCE.addBookmarkBoard(mRequestParam.title, mRequestParam.fid,mRequestParam.stid);
                 ToastUtils.showToast(R.string.toast_add_bookmark_board);
                 break;
             case R.id.menu_remove_bookmark:

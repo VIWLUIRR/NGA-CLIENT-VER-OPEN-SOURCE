@@ -16,7 +16,7 @@ class ForumBoardModel {
 
     private lateinit var boardList: MutableList<BoardEntity>
 
-    lateinit var bookmark: BoardEntity
+    lateinit var bookmarkBoard: BoardEntity
 
     private val boardMap: HashMap<String, BoardEntity> = HashMap()
 
@@ -32,14 +32,18 @@ class ForumBoardModel {
     init {
         boardList = ForumBoardRepository.loadLocalBoardList(ContextUtils.getContext())
         boardList.forEach {
-            initBoardData(it)
+            initBoardData(it, null)
         }
         transferBookmarkBoards()
     }
 
-    private fun initBoardData(boardEntity: BoardEntity) {
+    private fun initBoardData(boardEntity: BoardEntity, parent: BoardEntity? = null) {
+        with(boardEntity) {
+            parentId = parent?.id
+            id = generateBoardId(fid, stid, parentId) ?: id
+        }
         if (boardEntity.type == BoardEntity.BoardType.BOOKMARK) {
-            bookmark = boardEntity
+            bookmarkBoard = boardEntity
         }
         boardMap[boardEntity.id] = boardEntity
         boardEntity.children?.let {
@@ -53,28 +57,43 @@ class ForumBoardModel {
         return boardList
     }
 
-    fun addBookmarkBoard(fid: Int, stid: Int): Int {
-        val id = computeBoardId(fid, stid)
-        val boardEntity = boardMap[id]
-        if (boardEntity != null && !bookmark.children!!.contains(boardEntity)) {
-            bookmark.children!!.add(boardEntity)
+    fun addBookmarkBoard(name: String, fid: Int, stid: Int): Int {
+        val id = generateBoardId(fid, stid)
+        val boardEntity = boardMap[id] ?: BoardEntity().also {
+            it.fid = fid
+            it.stid = stid
+            it.id = id!!
+            it.name = name
+        }
+        if (!bookmarkBoard.children!!.contains(boardEntity)) {
+            bookmarkBoard.children!!.add(boardEntity)
+            boardMap[id!!] = boardEntity
             saveData()
         }
-        return bookmark.children!!.size
+        return bookmarkBoard.children!!.size
     }
 
     fun removeBookmarkBoard(fid: Int, stid: Int): Int {
-        val id = computeBoardId(fid, stid)
+        val id = generateBoardId(fid, stid)
         val boardEntity = boardMap[id]
         if (boardEntity != null) {
-            bookmark.children!!.remove(boardEntity)
+            boardMap.remove(id)
+            bookmarkBoard.children!!.remove(boardEntity)
             saveData()
         }
-        return bookmark.children!!.size
+        return bookmarkBoard.children!!.size
+    }
+
+    fun removeAllBookmarkBoard(): Int? {
+        return bookmarkBoard.children?.let {
+            it.clear()
+            saveData()
+            return 0
+        }
     }
 
     private fun transferBookmarkBoards() {
-        if (!bookmark.children.isNullOrEmpty()) {
+        if (!bookmarkBoard.children.isNullOrEmpty()) {
             return
         }
         val bookmarkJson = PreferenceUtils.getData(PreferenceKey.BOOKMARK_BOARD, "")
@@ -90,35 +109,28 @@ class ForumBoardModel {
             if (it.stid != 0) {
                 boardEntity.stid = it.stid
             }
-            checkBoardData(boardEntity, bookmark)
-            bookmark.children!!.add(boardEntity)
+            generateBoardId(boardEntity.fid, boardEntity.stid, bookmarkBoard.id)
+            bookmarkBoard.children!!.add(boardEntity)
         }
         saveData(true)
         //PreferenceUtils.putData(PreferenceKey.BOOKMARK_BOARD, "")
     }
 
-    private fun computeBoardId(fid: Int, stid: Int): String {
-        var id = ""
+    private fun generateBoardId(fid: Int, stid: Int, parentId: String? = null): String? {
+        var id: String? = null
         if (fid != 0) {
             id = fid.toString()
         }
         if (stid != 0) {
             id = id + "_" + stid
+        } else if (parentId != null) {
+            id = id + "_" + parentId
         }
         return id
     }
 
-    private fun checkBoardData(board: BoardEntity, parent: BoardEntity?) {
-        if (board.parentId.isNullOrEmpty()) {
-            board.parentId = parent?.id
-        }
-        if (board.id.isEmpty()) {
-            board.id = computeBoardId(board.fid, board.stid)
-        }
-    }
-
     fun swapBookmark(from: Int, to: Int) {
-        val boards: List<BoardEntity> = bookmark.children!!
+        val boards: List<BoardEntity> = bookmarkBoard.children!!
         if (from < to) {
             for (i in from until to) {
                 Collections.swap(boards, i, i + 1)
