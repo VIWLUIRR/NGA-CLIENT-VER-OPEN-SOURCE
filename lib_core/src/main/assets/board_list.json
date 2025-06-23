@@ -1,12 +1,5 @@
 [
   {
-    "id": "bookmark",
-    "name": "我的收藏",
-    "type": 3,
-    "children": [
-    ]
-  },
-  {
     "id": "wow",
     "name": "魔兽世界",
     "type": 2,
