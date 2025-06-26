@@ -26,7 +26,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.compose.board.ForumBoardView;
 import gov.anzong.androidnga.activity.compose.board.ForumBoardViewModel;
 import gov.anzong.androidnga.arouter.ARouterConstants;
@@ -155,9 +154,6 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_add:
-                gotoForumList();
-                break;
             case R.id.menu_add_id:
                 showAddBoardDialog();
                 break;
@@ -183,12 +179,6 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
                 })
                 .create()
                 .show();
-    }
-
-
-    private void gotoForumList() {
-        Intent intent = new Intent(getActivity(), ForumListActivity.class);
-        startActivity(intent);
     }
 
     @Override
