@@ -46,18 +46,21 @@ class ForumBoardView(context: Context, provider: ViewModelProvider) :
     private var forumBoardViewModel: ForumBoardViewModel = provider[ForumBoardViewModel::class.java]
 
     init {
-        val initialPage = if (forumBoardViewModel.bookmarkSizeLiveData.value!! > 0) 0 else 1
         addView(ComposeView(context).apply {
             setContent {
                 AppTheme {
                     val boardData by forumBoardViewModel.boardLiveData.observeAsState()
                     val tabs = arrayListOf<String>()
-                    boardData?.forEach {
-                        tabs.add(it.name)
+                    boardData?.let {
+                        it.forEach{
+                            tabs.add(it.name)
+                        }
+                        val initialPage = if (forumBoardViewModel.bookmarkSizeLiveData.value!! > 0) 0 else 1
+                        TabLayoutWithPager(tabs = tabs, initialPage = initialPage) {
+                            ForumBoardContent(it)
+                        }
                     }
-                    TabLayoutWithPager(tabs = tabs, initialPage = initialPage) {
-                        ForumBoardContent(it)
-                    }
+
                 }
             }
         })
