@@ -34,7 +34,6 @@ object ForumBoardViewModel : ViewModel() {
 
     fun addBookmarkBoard(name: String, fid: Int, stid: Int) {
         bookmarkSizeLiveData.value = forumBoardModel.addBookmarkBoard(name, fid, stid)
-        requestRemoteBoardList()
     }
 
     fun removeBookmarkBoard(fid: Int, stid: Int) {
@@ -55,13 +54,15 @@ object ForumBoardViewModel : ViewModel() {
             .withInt(ParamKey.KEY_STID, stid)
             .withString(ParamKey.KEY_TITLE, board.name)
             .navigation()
+        // todo 先临时放在这里，后面再统一定时处理
+        requestRemoteBoardList()
     }
 
-    fun requestRemoteBoardList() {
+    private fun requestRemoteBoardList() {
         val long = PreferenceUtils.getData(BOARD_REMOTE_REQUEST_TIME_KEY, 0L)
 
         if (System.currentTimeMillis() - long < TimeUnit.DAYS.toMillis(1)) {
-         //   return
+            return
         }
 
         viewModelScope.launch(Dispatchers.IO) {
