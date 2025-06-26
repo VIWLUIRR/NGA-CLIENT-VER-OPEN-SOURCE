@@ -24,6 +24,8 @@ object ForumBoardRepository {
 
     private const val BOARD_LOCAL_VERSION_KEY = "board_local_version"
 
+
+
     fun loadLocalBoardList(context: Context): MutableList<BoardEntity> {
         val boardJson: String
         val fileName = BOARD_FILE_NAME

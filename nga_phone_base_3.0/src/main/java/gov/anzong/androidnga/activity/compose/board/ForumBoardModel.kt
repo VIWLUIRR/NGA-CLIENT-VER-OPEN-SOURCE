@@ -152,19 +152,21 @@ class ForumBoardModel {
         val forumsListBean = ForumBoardRepository.requestRemoteBoardList(ContextUtils.getContext())
         val addChildList: MutableList<BoardEntity> = mutableListOf()
         forumsListBean?.result?.forEach {
-            it.groups?.forEach { it ->
-                val groupId = it.id
-                it.forums?.forEach { child ->
-                    generateBoardId(child.id, child.stid)?.let { it ->
-                        if (!boardMap.contains(it)) {
-                            val boardEntity = BoardEntity().apply {
-                                id = it
-                                fid = child.id
-                                stid = child.stid
-                                parentId = groupId
-                                name = child.name!!
+            if (it.id == "other" || it.id == "wow" || it.id == "company") {
+                it.groups?.forEach { it ->
+                    val groupId = it.id
+                    it.forums?.forEach { child ->
+                        generateBoardId(child.id, child.stid)?.let { it ->
+                            if (!boardMap.contains(it)) {
+                                val boardEntity = BoardEntity().apply {
+                                    id = it
+                                    fid = child.id
+                                    stid = child.stid
+                                    parentId = groupId
+                                    name = child.name!!
+                                }
+                                addChildList.add(boardEntity)
                             }
-                            addChildList.add(boardEntity)
                         }
                     }
                 }

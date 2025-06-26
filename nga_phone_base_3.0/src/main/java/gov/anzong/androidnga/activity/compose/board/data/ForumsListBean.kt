@@ -13,6 +13,7 @@ class ForumsListBean : JavaBean {
 
     class Result : JavaBean {
         var id: String? = null
+        var _id: String? = null
         var name: String? = null
         var groups: ArrayList<Group>? = null
     }
