@@ -123,6 +123,18 @@ class ForumBoardModel {
         }
     }
 
+    fun isBookmarkBoard(fid: Int, stid: Int): Boolean {
+        val id = generateBoardId(fid, stid)
+        bookmarkBoard.children?.let {
+            it.forEach {
+                if (it.id == id) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
     private fun generateBoardId(fid: Int, stid: Int, parentId: String? = null): String? {
         var id: String? = null
         if (fid != 0) {
@@ -190,6 +202,16 @@ class ForumBoardModel {
                 ContextUtils.getContext(), localBoardList.toList()
             )
         }
+    }
+
+    fun getBoardName(fid: Int, stid: Int): String {
+        val boardEntity = findBoard(fid, stid)
+        return boardEntity?.name ?: ""
+    }
+
+    fun findBoard(fid: Int, stid: Int = 0): BoardEntity? {
+        val id = generateBoardId(fid, stid)
+        return boardMap[id]
     }
 
 }

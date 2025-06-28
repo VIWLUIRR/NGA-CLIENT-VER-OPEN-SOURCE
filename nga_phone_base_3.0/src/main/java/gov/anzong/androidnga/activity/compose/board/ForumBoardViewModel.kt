@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gov.anzong.androidnga.arouter.ARouterConstants
 import gov.anzong.androidnga.base.util.PreferenceUtils
+import gov.anzong.androidnga.base.util.ToastUtils
 import gov.anzong.androidnga.core.board.data.BoardEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -34,6 +35,28 @@ object ForumBoardViewModel : ViewModel() {
 
     fun addBookmarkBoard(name: String, fid: Int, stid: Int) {
         bookmarkSizeLiveData.value = forumBoardModel.addBookmarkBoard(name, fid, stid)
+    }
+
+    fun isBookmarkBoard(fid: Int, stid: Int): Boolean {
+        return forumBoardModel.isBookmarkBoard(fid, stid)
+    }
+
+    fun getBoardName(fid: Int, stid: Int): String {
+        return forumBoardModel.getBoardName(fid, stid)
+    }
+
+    fun findBoard(fid: Int, stid: Int = 0): BoardEntity? {
+        return forumBoardModel.findBoard(fid, stid)
+    }
+
+    fun addBookmarkBoard(name: String, fid: String, stid: String) {
+        try {
+            if (name.isEmpty()) {
+                addBookmarkBoard(name, fid.toInt(), stid.toInt())
+            }
+        } catch (e: NumberFormatException) {
+            ToastUtils.show("请输入正确的版面名称、ID或者合集ID")
+        }
     }
 
     fun removeBookmarkBoard(fid: Int, stid: Int) {
