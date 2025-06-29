@@ -22,7 +22,7 @@ object ForumBoardViewModel : ViewModel() {
 
     private val forumBoardModel = ForumBoardModel()
 
-    private const val BOARD_REMOTE_REQUEST_TIME_KEY = "board_remote_request_time"
+    const val BOARD_REMOTE_REQUEST_TIME_KEY = "board_remote_request_time"
 
     init {
         boardLiveData.postValue(forumBoardModel.loadBoardData())

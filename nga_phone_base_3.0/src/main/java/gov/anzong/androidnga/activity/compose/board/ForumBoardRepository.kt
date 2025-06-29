@@ -4,6 +4,7 @@ import android.content.Context
 import com.alibaba.fastjson.JSON
 import com.justwen.androidnga.base.network.retrofit.RetrofitHelper
 import gov.anzong.androidnga.Utils
+import gov.anzong.androidnga.activity.compose.board.ForumBoardViewModel.BOARD_REMOTE_REQUEST_TIME_KEY
 import gov.anzong.androidnga.activity.compose.board.data.ForumsListBean
 import gov.anzong.androidnga.base.util.PreferenceUtils
 import gov.anzong.androidnga.base.utils.Files
@@ -20,11 +21,9 @@ object ForumBoardRepository {
 
     private const val FORUM_URL: String = "app_api.php?__lib=home&__act=category"
 
-    private const val BOARD_LOCAL_VERSION_CURRENT = 4
+    private const val BOARD_LOCAL_VERSION_CURRENT = 5
 
     private const val BOARD_LOCAL_VERSION_KEY = "board_local_version"
-
-
 
     fun loadLocalBoardList(context: Context): MutableList<BoardEntity> {
         val boardJson: String
@@ -44,14 +43,14 @@ object ForumBoardRepository {
     }
 
     private fun checkLocalDataVersion(file: File) {
-        if (!file.exists()) {
-            return
-        }
         val currentVersion =
             PreferenceUtils.getData(BOARD_LOCAL_VERSION_KEY, BOARD_LOCAL_VERSION_CURRENT)
         if (currentVersion != BOARD_LOCAL_VERSION_CURRENT) {
             PreferenceUtils.putData(BOARD_LOCAL_VERSION_KEY, BOARD_LOCAL_VERSION_CURRENT)
-            Files.delete(file)
+            PreferenceUtils.putData(BOARD_REMOTE_REQUEST_TIME_KEY, 0L)
+            if (file.exists()) {
+                Files.delete(file)
+            }
         }
     }
 
