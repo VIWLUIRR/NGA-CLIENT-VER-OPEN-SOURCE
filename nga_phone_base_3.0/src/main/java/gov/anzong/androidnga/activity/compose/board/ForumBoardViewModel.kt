@@ -33,8 +33,8 @@ object ForumBoardViewModel : ViewModel() {
         return boardLiveData.value!![index]
     }
 
-    fun addBookmarkBoard(name: String, fid: Int, stid: Int) {
-        bookmarkSizeLiveData.value = forumBoardModel.addBookmarkBoard(name, fid, stid)
+    fun addBookmarkBoard(name: String, fid: Int, stid: Int, head: String? = null) {
+        bookmarkSizeLiveData.value = forumBoardModel.addBookmarkBoard(name, fid, stid,head)
     }
 
     fun isBookmarkBoard(fid: Int, stid: Int): Boolean {
@@ -75,6 +75,7 @@ object ForumBoardViewModel : ViewModel() {
         ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
             .withInt(ParamKey.KEY_FID, fid)
             .withInt(ParamKey.KEY_STID, stid)
+            .withString(ParamKey.BOARD_HEAD, board.head)
             .withString(ParamKey.KEY_TITLE, board.name)
             .navigation()
         // todo 先临时放在这里，后面再统一定时处理

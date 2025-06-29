@@ -79,13 +79,14 @@ class ForumBoardModel {
         return boardList
     }
 
-    fun addBookmarkBoard(name: String, fid: Int, stid: Int): Int {
+    fun addBookmarkBoard(name: String, fid: Int, stid: Int, head: String? = null): Int {
         val id = generateBoardId(fid, stid)
         val boardEntity = BoardEntity().also {
             it.fid = fid
             it.stid = stid
             it.id = id!!
             it.name = name
+            it.head = head
         }
         bookmarkBoard.children?.let {
             if (!it.contains(boardEntity)) {

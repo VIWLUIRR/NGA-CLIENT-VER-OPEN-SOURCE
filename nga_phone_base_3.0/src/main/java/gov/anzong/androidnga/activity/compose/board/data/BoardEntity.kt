@@ -23,6 +23,8 @@ class BoardEntity : JavaBean {
 
     var children: MutableList<BoardEntity>? = null
 
+    var head :String? = null
+
     @IntDef(BoardType.BOARD, BoardType.ASSEMBLE, BoardType.GROUP, BoardType.BOOKMARK)
     annotation class BoardType {
         companion object {

@@ -36,7 +36,6 @@ import gov.anzong.androidnga.common.util.FileUtils;
 import gov.anzong.androidnga.common.util.LogUtils;
 import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.model.TopicListModel;
-import sp.phone.mvp.model.entity.Board;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.param.ParamKey;
@@ -245,8 +244,8 @@ public class TopicListPresenter extends ViewModel implements LifecycleObserver {
         return ForumBoardViewModel.INSTANCE.isBookmarkBoard(fid, stid);
     }
 
-    public void addBookmarkBoard(Board board) {
-        ForumBoardViewModel.INSTANCE.addBookmarkBoard(mRequestParam.title, mRequestParam.fid, mRequestParam.stid);
+    public void addBookmarkBoard() {
+        ForumBoardViewModel.INSTANCE.addBookmarkBoard(mRequestParam.title, mRequestParam.fid, mRequestParam.stid, mRequestParam.boardHead);
     }
 
     public void removeBookmarkBoard(int fid, int stid) {

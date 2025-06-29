@@ -20,7 +20,7 @@ object ForumBoardRepository {
 
     private const val FORUM_URL: String = "app_api.php?__lib=home&__act=category"
 
-    private const val BOARD_LOCAL_VERSION_CURRENT = 2
+    private const val BOARD_LOCAL_VERSION_CURRENT = 4
 
     private const val BOARD_LOCAL_VERSION_KEY = "board_local_version"
 
