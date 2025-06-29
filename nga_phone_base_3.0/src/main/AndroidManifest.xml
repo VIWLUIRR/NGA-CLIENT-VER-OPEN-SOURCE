@@ -65,9 +65,6 @@
             android:name=".activity.SignPostActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.MessagePostActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".activity.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/menu_setting"
