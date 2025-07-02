@@ -4,7 +4,7 @@ buildscript {
         compose_ui_version = compose_version
         compose_activity_version = '1.10.1'
         compose_compile_version = '1.5.15'
-        kotlin_version = '1.9.25'
+        kotlin_version = '1.9.20'
         core_ktx_version = '1.7.0'
         appcompat_version = "1.3.0"
         lifecycle_version = "2.6.2"
