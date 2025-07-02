@@ -59,7 +59,11 @@ public class ToastUtils {
     }
 
     public static void error(String text) {
-        Toasty.error(ContextUtils.getContext(), text).show();
+        if (!ThreadUtils.isMainThread()) {
+            ThreadUtils.runOnMainThread(() -> Toasty.error(ContextUtils.getContext(), text).show());
+        } else {
+            Toasty.error(ContextUtils.getContext(), text).show();
+        }
     }
 
     public static void info(String text) {

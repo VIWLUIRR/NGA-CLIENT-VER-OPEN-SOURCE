@@ -4,7 +4,9 @@ plugins {
 }
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    namespace 'gov.anzong.androidnga.common'
+
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion
@@ -17,8 +19,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -26,6 +28,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -38,7 +44,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
 
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
-    api 'io.reactivex.rxjava2:rxjava:2.1.5'
+    api "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
     implementation 'net.steamcrafted:load-toast:1.0.12'
     implementation 'com.github.GrenderG:Toasty:1.4.1'

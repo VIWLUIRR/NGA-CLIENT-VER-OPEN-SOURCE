@@ -8,5 +8,7 @@ class ARouterConstants {
         const val ACTIVITY_MESSAGE_POST = "/message/post"
         const val ACTIVITY_MESSAGE_DETAIL = "/message/detail"
 
+        const val ACTIVITY_DEBUG = "/debug/activity"
+
     }
 }

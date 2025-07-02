@@ -6,11 +6,18 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.justwen.androidnga.cloud.CloudServerManager;
 
@@ -45,6 +52,32 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             NLog.e("set navigation bar color exception occur: " + e);
+        }
+        enableEdge2Edge();
+    }
+
+    private void enableEdge2Edge() {
+        View contentView = findViewById(android.R.id.content);
+        if (mToolbarEnabled && contentView != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(contentView, new OnApplyWindowInsetsListener() {
+                @NonNull
+                @Override
+                public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                    if (getWindow().getDecorView().findViewById(R.id.status_bar) == null) {
+                        Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+                        ViewGroup parent = (ViewGroup) contentView.getParent();
+                        View statusView = new View(contentView.getContext());
+                        statusView.setId(R.id.status_bar);
+                        statusView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, stateBars.top));
+                        statusView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(contentView.getContext()));
+                        parent.addView(statusView, 0);
+
+                        Insets navaBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+                        contentView.setPadding(0, 0, 0, navaBars.bottom);
+                    }
+                    return insets;
+                }
+            });
         }
     }
 
@@ -128,6 +161,12 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+        view.setFitsSystemWindows(!mToolbarEnabled);
     }
 
     @Override

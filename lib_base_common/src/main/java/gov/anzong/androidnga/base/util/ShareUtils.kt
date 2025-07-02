@@ -9,7 +9,24 @@ import java.io.File
 
 object ShareUtils {
 
-    fun shareImage(context: Context = ContextUtils.getContext(), file: File) {
+    fun shareFile(context: Context, file: File) {
+        try {
+            val contentUri = FileProvider.getUriForFile(
+                context, context.packageName, file
+            )
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(Intent.EXTRA_STREAM, contentUri)
+            intent.setType("*/*")
+            val text: String = context.resources.getString(R.string.share_to)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            context.startActivity(Intent.createChooser(intent, text))
+        } catch (e: ActivityNotFoundException) {
+            ToastUtils.error("分享失败！")
+        }
+    }
+
+
+    fun shareImage(context: Context, file: File) {
         try {
             val contentUri = FileProvider.getUriForFile(
                 context, context.packageName, file
@@ -25,7 +42,7 @@ object ShareUtils {
         }
     }
 
-    fun shareText(context: Context = ContextUtils.getContext(), title: String, content: String) {
+    fun shareText(context: Context, title: String, content: String) {
         try {
             val intent = Intent()
             intent.setAction(Intent.ACTION_SEND)

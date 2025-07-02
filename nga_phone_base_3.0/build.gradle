@@ -4,8 +4,6 @@ plugins {
     id 'kotlin-kapt'
 }
 
-apply plugin: 'com.alibaba.arouter'
-
 def static getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMddHHmm')
@@ -17,7 +15,8 @@ def isJenkins() {
 }
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    namespace "gov.anzong.androidnga"
+    compileSdk project.compileSdkVersion
 
     signingConfigs {
         signingConfig {
@@ -61,8 +60,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -88,13 +87,13 @@ android {
         disable 'MissingTranslation'
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.8'
+        kotlinCompilerExtensionVersion compose_compile_version
     }
     packagingOptions {
         resources {
@@ -134,7 +133,7 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:10.2.1'
 
     //compose
-    implementation 'androidx.activity:activity-compose:1.9.0'
+    implementation "androidx.activity:activity-compose:$compose_activity_version"
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation "androidx.compose.material:material:$compose_version"
@@ -162,15 +161,17 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
     implementation project(':lib_base_common')
-    implementation project(':lib_cloud')
+    implementation project(':lib_bu_statistics')
     implementation project(':lib_core')
     implementation project(':lib_base_logger')
 
     implementation project(':lib_base_network')
     implementation project(':lib_core_data')
-    implementation project(':lib_module_message')
+    implementation project(':lib_bu_message')
     implementation project(':lib_base_service_api')
     implementation project(':lib_base_ui_compose')
+
+    implementation project(':lib_module_debug')
 
     // database
     implementation "androidx.room:room-runtime:$room_version"

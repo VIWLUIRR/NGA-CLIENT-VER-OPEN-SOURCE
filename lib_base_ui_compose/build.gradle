@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.justwen.androidnga.ui.compose'
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         minSdkVersion project.minSdkVersion
@@ -22,28 +22,32 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.8'
+        kotlinCompilerExtensionVersion compose_compile_version
     }
 }
 
 dependencies {
 
-    implementation 'androidx.activity:activity-compose:1.9.0'
-    implementation "androidx.compose.ui:ui:$compose_ui_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    api "androidx.activity:activity-compose:$compose_activity_version"
+    api "androidx.compose.ui:ui:$compose_ui_version"
+    api "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+    api "androidx.compose.material:material:$compose_version"
+    debugApi "androidx.compose.ui:ui-tooling:$compose_ui_version"
     implementation 'com.alibaba:arouter-api:1.5.2'
+
+    api "io.coil-kt:coil-compose:2.5.0"
+
+    api "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.16.0"
     // paging

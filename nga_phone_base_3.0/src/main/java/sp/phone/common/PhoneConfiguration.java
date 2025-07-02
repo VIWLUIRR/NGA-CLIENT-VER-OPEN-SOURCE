@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
-import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
