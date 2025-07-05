@@ -1,7 +1,10 @@
 package gov.anzong.androidnga.activity;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -79,6 +82,25 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    // Android15上开启EdgeToEdge后adjustResize会失效，这里临时做下兼容
+    public static void compatActivityAdjustResize(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            return;
+        }
+        View content = ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+        final Rect r = new Rect();
+        content.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            content.getWindowVisibleDisplayFrame(r);
+            int screenHeight = content.getRootView().getHeight();
+            int keyboardHeight = screenHeight - r.bottom;
+            if (keyboardHeight > screenHeight / 4) { // 键盘高度超过屏幕1/4
+                content.setPadding(0, 0, 0, keyboardHeight);
+            } else {
+                content.setPadding(0, 0, 0, 0);
+            }
+        });
     }
 
     protected void setToolbarEnabled(boolean enabled) {
