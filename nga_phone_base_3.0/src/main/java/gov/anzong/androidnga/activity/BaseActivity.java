@@ -42,6 +42,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private boolean mToolbarEnabled;
 
+    private int mNaviBarHeight;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mConfig = PhoneConfiguration.getInstance();
@@ -76,6 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         parent.addView(statusView, 0);
 
                         Insets navaBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+                        mNaviBarHeight = navaBars.bottom;
                         contentView.setPadding(0, 0, 0, navaBars.bottom);
                     }
                     return insets;
@@ -85,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     // Android15上开启EdgeToEdge后adjustResize会失效，这里临时做下兼容
-    public static void compatActivityAdjustResize(Activity activity) {
+    protected void compatActivityAdjustResize(Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             return;
         }
@@ -94,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         content.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             content.getWindowVisibleDisplayFrame(r);
             int screenHeight = content.getRootView().getHeight();
-            int keyboardHeight = screenHeight - r.bottom;
+            int keyboardHeight = screenHeight - r.bottom - mNaviBarHeight;
             if (keyboardHeight > screenHeight / 4) { // 键盘高度超过屏幕1/4
                 content.setPadding(0, 0, 0, keyboardHeight);
             } else {
