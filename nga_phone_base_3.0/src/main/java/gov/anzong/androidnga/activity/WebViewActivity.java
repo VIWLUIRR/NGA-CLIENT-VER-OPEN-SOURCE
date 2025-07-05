@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.fragment.WebViewFragment;
 import gov.anzong.androidnga.ui.fragment.BaseFragment;
 
@@ -17,11 +18,12 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
-        setupActionBar();
+        setupToolbar();
         initTitle();
         mFragment = createFragment();
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, mFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_content, mFragment).commit();
     }
 
     private void initTitle() {
