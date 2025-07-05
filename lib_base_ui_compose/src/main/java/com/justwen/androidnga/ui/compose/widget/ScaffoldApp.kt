@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,7 @@ fun FloatingActionButton(fabClick: (() -> Unit)? = null) {
             modifier = Modifier.navigationBarsPadding(),
             backgroundColor = MaterialTheme.colors.primary,
             onClick = { fabClick.invoke() }) {
-            Icon(Icons.Default.Add, contentDescription = "Add")
+            Icon(Icons.Default.Add, tint = Color.White, contentDescription = "Add")
         }
     }
 }
@@ -51,7 +52,7 @@ fun OptionActionMenu(optionActions: List<OptionMenuData>? = null) {
     }
     var expanded by remember { mutableStateOf(false) }
     IconButton(onClick = { expanded = !expanded }) {
-        Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")
+        Icon(imageVector = Icons.Default.MoreVert, contentDescription = "", tint = Color.White)
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             optionActions.forEach(action = {
                 DropdownMenuItem(onClick = {
@@ -79,7 +80,7 @@ fun TopAppBarEx(
         windowInsets = WindowInsets(0, pxValue.toInt(), 0, 0),
         title = {
             if (topAppBarData.customTopBar == null) {
-                Text(topAppBarData.title)
+                Text(text = topAppBarData.title, color = Color.White)
             } else {
                 topAppBarData.customTopBar!!.invoke()
             }
@@ -90,6 +91,7 @@ fun TopAppBarEx(
             }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    tint = Color.White,
                     contentDescription = "Localized description"
                 )
             }
