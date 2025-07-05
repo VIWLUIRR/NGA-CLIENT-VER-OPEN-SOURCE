@@ -10,5 +10,7 @@ class ARouterConstants {
 
         const val ACTIVITY_DEBUG = "/debug/activity"
 
+        const val ACTIVITY_LOGIN = "/account/login"
+
     }
 }

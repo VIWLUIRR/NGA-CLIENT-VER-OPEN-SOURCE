@@ -1,5 +1,6 @@
 package sp.phone.util;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,8 +14,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.util.NLog;
@@ -310,8 +314,7 @@ public class ActivityUtils {
     }
 
     public static void startLoginActivity(Context context) {
-        Intent intent = new Intent(context, PhoneConfiguration.getInstance().loginActivityClass);
-        context.startActivity(intent);
+        ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) context, 1);
     }
 
     public static void startFavoriteTopicActivity(Context context) {

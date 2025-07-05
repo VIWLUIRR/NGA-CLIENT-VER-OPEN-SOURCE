@@ -34,7 +34,11 @@ class UserManagerService : IUserManagerService {
         dialogBuilder.show()
     }
 
-    override fun init(p0: Context?) {
+    override fun addUser(uid: String, cid: String, name: String) {
+        UserManagerImpl.getInstance().addUser(uid, cid, name)
+    }
+
+    override fun init(context: Context?) {
     }
 
 }

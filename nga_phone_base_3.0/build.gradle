@@ -168,6 +168,7 @@ dependencies {
     implementation project(':lib_base_network')
     implementation project(':lib_core_data')
     implementation project(':lib_bu_message')
+    implementation project(':lib_bu_account')
     implementation project(':lib_base_service_api')
     implementation project(':lib_base_ui_compose')
 

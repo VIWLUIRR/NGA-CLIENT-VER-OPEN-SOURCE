@@ -159,8 +159,7 @@ public class ArticleTabFragment extends BaseRxFragment {
             intent.setClass(getContext(),
                     PhoneConfiguration.getInstance().postActivityClass);
         } else {
-            intent.setClass(getContext(),
-                    PhoneConfiguration.getInstance().loginActivityClass);
+            ActivityUtils.startLoginActivity(getContext());
         }
         getActivity().startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
     }

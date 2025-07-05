@@ -244,9 +244,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                         ContextUtils.getContext(),
                         PhoneConfiguration.getInstance().postActivityClass);
             } else {
-                intent.setClass(
-                        ContextUtils.getContext(),
-                        PhoneConfiguration.getInstance().loginActivityClass);
+                ActivityUtils.startLoginActivity(mContext);
             }
             return intent;
         }
