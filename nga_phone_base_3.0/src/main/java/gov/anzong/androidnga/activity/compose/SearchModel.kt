@@ -78,7 +78,7 @@ class SearchModel {
             if (keyList.size > SEARCH_KEY_MAX_COUNT) {
                 try {
                     keyList.removeLast()
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     keyList.removeAt(keyList.size - 1)
                 }
             }

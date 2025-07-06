@@ -83,15 +83,20 @@ public class WebViewFragment extends BaseFragment {
 
     private WebView createWebView(Context context) {
         WebView webView = new WebView(context);
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                String urlStr = request.getUrl().toString();
                 String host = Strings.nullToEmpty(request.getUrl().getHost());
-                if(host.contains("nga") || host.contains("178")){
-                    webView.loadUrl(request.getUrl().toString());
+                if (host.contains("nga") || host.contains("178")) {
+                    if (urlStr.contains("&rand") || urlStr.contains("?rand")) {
+                        return false;
+                    } else {
+                        webView.loadUrl(urlStr);
+                    }
                 } else {
-                    startExternalBrowser(getContext(), request.getUrl().toString());
+                    startExternalBrowser(getContext(), urlStr);
                 }
                 return true;
             }
@@ -103,7 +108,7 @@ public class WebViewFragment extends BaseFragment {
             }
         });
 
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
 
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
