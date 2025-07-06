@@ -117,7 +117,7 @@ repositories {
 dependencies {
     implementation(name: 'floatingactionmenu', ext: 'aar')
 
-    implementation "com.google.android.material:material:$androidxMaterial"
+    implementation "com.google.android.material:material:$androidx_material_version"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
@@ -171,6 +171,7 @@ dependencies {
     implementation project(':lib_bu_account')
     implementation project(':lib_base_service_api')
     implementation project(':lib_base_ui_compose')
+    implementation project(':lib_base_ui')
 
     implementation project(':lib_module_debug')
 
