@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.fragment.WebViewFragment;
+import gov.anzong.androidnga.activity.fragment.ForumWebFragment;
 import gov.anzong.androidnga.base.util.ShareUtils;
 import gov.anzong.androidnga.base.widget.TabLayoutEx;
 import sp.phone.common.PhoneConfiguration;
@@ -202,7 +202,7 @@ public class ArticleTabFragment extends BaseRxFragment {
                 ARouterUtils.build(ARouterConstants.ACTIVITY_FRAGMENT_TEMPLATE)
                         .withString("url", getCurrentUrl())
                         .withString("title", mRequestParam.title)
-                        .withString("fragment", WebViewFragment.class.getName())
+                        .withString("fragment", ForumWebFragment.class.getName())
                         .navigation(getContext());
                 break;
             default:

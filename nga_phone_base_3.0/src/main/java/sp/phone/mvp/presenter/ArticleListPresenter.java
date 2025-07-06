@@ -11,7 +11,7 @@ import java.util.Map;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.fragment.WebViewFragment;
+import gov.anzong.androidnga.activity.fragment.ForumWebFragment;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.http.OnHttpCallBack;
@@ -126,7 +126,7 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         ARouterUtils.build(ARouterConstants.ACTIVITY_FRAGMENT_TEMPLATE)
                 .withString("url", getCurrentUrl())
                 .withString("title", mRequestParam.title)
-                .withString("fragment", WebViewFragment.class.getName())
+                .withString("fragment", ForumWebFragment.class.getName())
                 .navigation(mBaseView.getContext());
         mBaseView.finish();
     }

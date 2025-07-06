@@ -1,4 +1,4 @@
-package com.justwen.androidnga.ui
+package com.justwen.androidnga.ui.fragment
 
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
@@ -24,7 +24,7 @@ open class BaseFragment : Fragment {
         activity?.onBackPressedDispatcher?.addCallback(this, callback)
     }
 
-    protected fun onHandleBackEvent(): Boolean {
+    protected open fun onHandleBackEvent(): Boolean {
         return false
     }
 
