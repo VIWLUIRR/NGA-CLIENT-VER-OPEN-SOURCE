@@ -318,7 +318,7 @@ public class ActivityUtils {
     }
 
     public static void startFavoriteTopicActivity(Context context) {
-        if (UserManagerImpl.getInstance().getActiveUser() == null) {
+        if (!UserManagerImpl.getInstance().hasValidUser()) {
             startLoginActivity(context);
         } else {
             Intent intent = new Intent(context, PhoneConfiguration.getInstance().topicActivityClass);
@@ -328,7 +328,7 @@ public class ActivityUtils {
     }
 
     public static void startRecommendTopicActivity(Context context, Intent intent) {
-        if (UserManagerImpl.getInstance().getActiveUser() == null) {
+        if (!UserManagerImpl.getInstance().hasValidUser()) {
             startLoginActivity(context);
         } else {
             intent.setClass(context, PhoneConfiguration.getInstance().topicActivityClass);
@@ -337,7 +337,7 @@ public class ActivityUtils {
     }
 
     public static void startTwentyFourActivity(Context context, Intent intent) {
-        if (UserManagerImpl.getInstance().getActiveUser() == null) {
+        if (!UserManagerImpl.getInstance().hasValidUser()) {
             startLoginActivity(context);
         } else {
             intent.setClass(context, PhoneConfiguration.getInstance().topicActivityClass);
@@ -346,7 +346,7 @@ public class ActivityUtils {
     }
 
     public static void startSearchDialog(AppCompatActivity activity, Bundle bundle) {
-        if (UserManagerImpl.getInstance().getActiveUser() == null) {
+        if (!UserManagerImpl.getInstance().hasValidUser()) {
             startLoginActivity(activity);
             return;
         }

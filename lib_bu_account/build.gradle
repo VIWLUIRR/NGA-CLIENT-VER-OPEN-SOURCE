@@ -54,4 +54,9 @@ dependencies {
     implementation project(':lib_base_service_api')
 
     implementation project(':lib_base_ui_compose')
+
+    // database
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }

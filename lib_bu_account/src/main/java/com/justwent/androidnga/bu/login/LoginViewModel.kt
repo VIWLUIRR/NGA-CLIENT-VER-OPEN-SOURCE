@@ -2,8 +2,7 @@ package com.justwent.androidnga.bu.login
 
 import android.webkit.CookieManager
 import androidx.lifecycle.ViewModel
-import com.alibaba.android.arouter.launcher.ARouter
-import com.justwen.androidnga.base.service.api.IUserManagerService
+import com.justwent.androidnga.bu.UserManager
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 
@@ -74,9 +73,7 @@ class LoginViewModel : ViewModel() {
             return false
         }
 
-        val userManager = ARouter.getInstance().build(IUserManagerService.ROUTER_PATH)
-            .navigation() as IUserManagerService
-        userManager.addUser(uid, cid, userName)
+        UserManager.addUser(uid, cid, userName)
         return true
     }
 
