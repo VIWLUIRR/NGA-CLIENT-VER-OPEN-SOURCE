@@ -46,6 +46,10 @@ object UserManager {
         return activeIndexLiveData.value!!
     }
 
+    public fun getActiveIndexLiveData(): MutableLiveData<Int> {
+        return activeIndexLiveData
+    }
+
     fun getActiveUser(): User? {
         return activeUser
     }
@@ -93,7 +97,7 @@ object UserManager {
     }
 
     fun addUser(uid: String, cid: String, name: String) {
-        val user = User(cid, uid, name)
+        val user = User(uid, name, cid)
         addUser(user)
     }
 
@@ -110,6 +114,10 @@ object UserManager {
         ThreadProvider.runOnSingleThread {
             AppDatabase.getInstance().userDao().removeUsers(user)
         }
+    }
+
+    fun getUserListLiveData(): MutableLiveData<List<User>> {
+        return userListLiveData
     }
 
     fun getUserList(): List<User> {

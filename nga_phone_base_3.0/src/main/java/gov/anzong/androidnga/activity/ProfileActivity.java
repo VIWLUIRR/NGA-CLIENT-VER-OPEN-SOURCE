@@ -511,6 +511,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     private void handleAvatar(ProfileData row) {
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getAvatarUrl());//
         ImageUtils.loadRoundCornerAvatar(mAvatarIv, avatarUrl);
+        com.justwent.androidnga.bu.UserManager.INSTANCE.setAvatarUrl(row.getUid(), avatarUrl);
         ImageUtils.loadDefaultAvatar((ImageView) findViewById(R.id.iv_toolbar_layout_bg), avatarUrl);
 
     }

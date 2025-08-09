@@ -23,7 +23,7 @@ import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.compose.board.ForumBoardView;
+import gov.anzong.androidnga.activity.compose.board.ForumBoardNativeContainer;
 import gov.anzong.androidnga.activity.compose.board.ForumBoardViewModel;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.widget.ViewFlipperEx;
@@ -72,7 +72,7 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
         mPresenter.loadBoardInfo();
 
         ViewGroup container = view.findViewById(R.id.container);
-        container.addView(new ForumBoardView(requireContext(), getActivityViewModelProvider()));
+        container.addView(new ForumBoardNativeContainer(requireContext(), getActivityViewModelProvider()));
     }
 
     @Override

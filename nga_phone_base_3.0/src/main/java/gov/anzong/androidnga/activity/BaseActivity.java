@@ -42,6 +42,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private boolean mToolbarEnabled;
 
+    private boolean mComposeEnabled;
+
     private int mNaviBarHeight;
 
     @Override
@@ -52,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ThemeManager.getInstance().initializeWebTheme(this);
 
         try {
-            if (ThemeManager.getInstance().isNightMode()) {
+            if (ThemeManager.getInstance().isNightMode() && !mComposeEnabled) {
                 getWindow().setNavigationBarColor(ContextUtils.getColor(R.color.background_color));
             }
         } catch (Exception e) {
@@ -61,9 +63,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         enableEdge2Edge();
     }
 
+    public void setComposeEnabled(boolean composeEnabled) {
+        mComposeEnabled = composeEnabled;
+    }
+
     private void enableEdge2Edge() {
         View contentView = findViewById(android.R.id.content);
-        if (mToolbarEnabled && contentView != null) {
+        if (mToolbarEnabled && !mComposeEnabled && contentView != null) {
             ViewCompat.setOnApplyWindowInsetsListener(contentView, new OnApplyWindowInsetsListener() {
                 @NonNull
                 @Override

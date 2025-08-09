@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.ComponentActivity;
+import androidx.activity.EdgeToEdge;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.alibaba.android.arouter.facade.Postcard;
@@ -18,7 +21,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.base.util.ThemeUtils;
-import com.justwen.androidnga.module.message.compose.MessageListActivity;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.ParamKey;
@@ -39,6 +41,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setToolbarEnabled(true);
+        setComposeEnabled(true);
+        EdgeToEdge.enable((ComponentActivity) this);
         super.onCreate(savedInstanceState);
         ThemeUtils.init(this);
         checkPermission();
@@ -79,11 +83,14 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         FragmentManager fm = getSupportFragmentManager();
-        mBoardFragment = (BaseFragment) fm.findFragmentByTag(NavigationDrawerFragment.class.getSimpleName());
-        if (mBoardFragment== null) {
-            mBoardFragment = new NavigationDrawerFragment();
-            fm.beginTransaction().replace(android.R.id.content, mBoardFragment, NavigationDrawerFragment.class.getSimpleName()).commit();
-        }
+//        mBoardFragment = (BaseFragment) fm.findFragmentByTag(NavigationDrawerFragment.class.getSimpleName());
+        //if (mBoardFragment == null) {
+        //    mBoardFragment = new NavigationDrawerFragment();
+        //    fm.beginTransaction().replace(android.R.id.content, mBoardFragment, NavigationDrawerFragment.class.getSimpleName()).commit();
+        //}
+
+        fm.beginTransaction().replace(android.R.id.content, new gov.anzong.androidnga.activity.compose.drawer.NavigationDrawerFragment(), NavigationDrawerFragment.class.getSimpleName()).commit();
+
     }
 
     @Override
@@ -124,7 +131,7 @@ public class MainActivity extends BaseActivity {
                 startNotificationActivity();
                 break;
             case R.id.menu_download:
-                startActivity(new Intent(this,TopicCacheActivity.class));
+                startActivity(new Intent(this, TopicCacheActivity.class));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -145,8 +152,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void aboutNgaClient() {
-       // new AboutClientDialogFragment().show(getSupportFragmentManager());
-        startActivity(new Intent(this,AboutActivity.class));
+        // new AboutClientDialogFragment().show(getSupportFragmentManager());
+        startActivity(new Intent(this, AboutActivity.class));
     }
 
     private void startSettingActivity() {
@@ -160,8 +167,11 @@ public class MainActivity extends BaseActivity {
         if (requestCode == ActivityUtils.REQUEST_CODE_SETTING && resultCode == Activity.RESULT_OK) {
             recreate();
         } else {
-            mBoardFragment.onActivityResult(requestCode, resultCode, data);
+            if (mBoardFragment != null) {
+                mBoardFragment.onActivityResult(requestCode, resultCode, data);
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void startNotificationActivity() {
