@@ -18,12 +18,12 @@ object UserManager {
     init {
         var index = PreferenceUtils.getData(PreferenceKey.USER_ACTIVE_INDEX, 0)
         AppDatabase.getInstance().userDao().loadUser()?.let {
-            userListLiveData.value = it
+            userListLiveData.postValue(it)
             if (it.isNotEmpty()) {
                 if (index >= it.size) {
                     index = 0
                 }
-                activeIndexLiveData.value = index
+                activeIndexLiveData.postValue(index)
                 activeUser = it[index]
             }
         }
