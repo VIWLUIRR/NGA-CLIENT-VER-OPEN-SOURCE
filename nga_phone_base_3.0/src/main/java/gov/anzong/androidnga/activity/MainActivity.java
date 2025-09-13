@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.EdgeToEdge;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -60,7 +61,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkPermission() {
-        PermissionUtils.request(this, null, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        try {
+            PermissionUtils.request(this, null, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        } catch (Exception e) {
+            // ignore
+        }
+
     }
 
     private void checkNewVersion() {
@@ -89,7 +95,10 @@ public class MainActivity extends BaseActivity {
         //    fm.beginTransaction().replace(android.R.id.content, mBoardFragment, NavigationDrawerFragment.class.getSimpleName()).commit();
         //}
 
-        fm.beginTransaction().replace(android.R.id.content, new gov.anzong.androidnga.activity.compose.drawer.NavigationDrawerFragment(), NavigationDrawerFragment.class.getSimpleName()).commit();
+        Fragment fragment = fm.findFragmentByTag(gov.anzong.androidnga.activity.compose.drawer.NavigationDrawerFragment.class.getSimpleName());
+        if (fragment == null) {
+            fm.beginTransaction().replace(android.R.id.content, new gov.anzong.androidnga.activity.compose.drawer.NavigationDrawerFragment(), NavigationDrawerFragment.class.getSimpleName()).commit();
+        }
 
     }
 
