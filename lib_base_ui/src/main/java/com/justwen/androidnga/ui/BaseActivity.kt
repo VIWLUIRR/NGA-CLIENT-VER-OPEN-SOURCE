@@ -32,6 +32,10 @@ abstract class BaseActivity : AppCompatActivity() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 isEnabled = onHandleBackEvent()
+                if (!isEnabled) {
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
             }
         }
         onBackPressedDispatcher.addCallback(this, callback)

@@ -19,13 +19,18 @@ open class BaseFragment : Fragment {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 isEnabled = onHandleBackEvent()
+                if (!isEnabled) {
+                    activity?.onBackPressedDispatcher?.onBackPressed()
+                    isEnabled = true
+                }
             }
         }
         activity?.onBackPressedDispatcher?.addCallback(this, callback)
     }
 
     protected open fun onHandleBackEvent(): Boolean {
-        return false
+        activity?.finish()
+        return true
     }
 
     protected fun setTitle(title: String) {
