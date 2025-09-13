@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -236,15 +237,36 @@ class NavigationDrawerFragment : BaseComposeFragment() {
     }
 
     @Composable
-    fun NavigationItem(label: String, iconId: Int? = null, onClick: (() -> Unit)? = null) {
+    fun NavigationItem(
+        label: String,
+        iconId: Int? = null,
+        onClick: (() -> Unit)? = null,
+        extra: String? = null
+    ) {
         NavigationDrawerItem(
             label = {
-                Text(
-                    text = label,
-                    color = Color.DarkGray,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = label,
+                        color = Color.DarkGray,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                        modifier = Modifier.alignByBaseline()
+                    )
+
+                    if (extra != null) {
+                        Text(
+                            text = extra,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .alignByBaseline()
+                                .padding(start = 8.dp)
+                        )
+                    }
+                }
+
             },
             icon = {
                 if (iconId != null) {
@@ -302,10 +324,18 @@ class NavigationDrawerFragment : BaseComposeFragment() {
                             label = "清空我的收藏",
                             iconId = R.drawable.ic_action_warning,
                             onClick = { viewModel.showClearFavoriteBoards(requireContext()) })
+
+                        val replyCount = viewModel.replyCount.observeAsState()
+                        var extra: String? = null
+                        if (replyCount.value != null && replyCount.value!! > 0) {
+                            extra = replyCount.value.toString()
+                        }
                         NavigationItem(
                             label = "最近被喷",
                             iconId = R.drawable.ic_action_gun,
-                            onClick = { viewModel.startNotificationActivity(requireActivity()) })
+                            onClick = { viewModel.startNotificationActivity(requireActivity()) },
+                            extra = extra
+                        )
                         NavigationItem(
                             label = "关于",
                             iconId = R.drawable.ic_action_about,

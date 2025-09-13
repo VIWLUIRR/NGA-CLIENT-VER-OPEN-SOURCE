@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alibaba.android.arouter.launcher.ARouter
 import com.justwent.androidnga.bu.UserManager
@@ -18,6 +19,8 @@ import gov.anzong.androidnga.activity.TopicCacheActivity
 import gov.anzong.androidnga.activity.compose.board.ForumBoardViewModel.addBookmarkBoard
 import gov.anzong.androidnga.activity.compose.board.ForumBoardViewModel.removeAllBookmarkBoard
 import gov.anzong.androidnga.arouter.ARouterConstants
+import gov.anzong.androidnga.base.util.PreferenceUtils
+import gov.anzong.androidnga.common.PreferenceKey
 import sp.phone.common.User
 import sp.phone.param.ParamKey
 import sp.phone.ui.fragment.dialog.AddBoardDialogFragment
@@ -27,6 +30,17 @@ import sp.phone.util.ActivityUtils
 
 class NavigationDrawerViewModel : ViewModel() {
 
+    val replyCount: MutableLiveData<Int> = MutableLiveData()
+
+    init {
+        replyCount.value = PreferenceUtils.getData(PreferenceKey.KEY_REPLY_COUNT, 0)
+        PreferenceUtils.getDefaultPreferences()
+            .registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+                if (key == PreferenceKey.KEY_REPLY_COUNT) {
+                    replyCount.postValue(sharedPreferences.getInt(key, 0))
+                }
+            }
+    }
 
     fun startLoginPage(activity: Activity) {
         ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN)
@@ -118,6 +132,6 @@ class NavigationDrawerViewModel : ViewModel() {
     fun startSettingsPage(activity: Activity) {
         val intent = Intent()
         intent.setClass(activity, SettingsActivity::class.java)
-        startActivityForResult(activity, intent, ActivityUtils.REQUEST_CODE_SETTING,null)
+        startActivityForResult(activity, intent, ActivityUtils.REQUEST_CODE_SETTING, null)
     }
 }
