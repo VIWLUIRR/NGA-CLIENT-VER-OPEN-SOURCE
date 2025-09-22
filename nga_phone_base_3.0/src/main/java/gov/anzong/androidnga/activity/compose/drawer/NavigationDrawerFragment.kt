@@ -175,6 +175,7 @@ class NavigationDrawerFragment : BaseComposeFragment() {
             )
             Text(
                 text = subMsg,
+                maxLines = 2,
                 modifier = Modifier.padding(top = 6.dp),
                 color = Color.White, fontSize = 14.sp
             )
@@ -197,6 +198,24 @@ class NavigationDrawerFragment : BaseComposeFragment() {
                 .height(160.dp)
                 .background(MaterialTheme.colors.primary)
         ) {
+            AnimatedContent(
+                targetState = activeIndex,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp),
+            ) { index ->
+                Box(modifier = Modifier.fillMaxSize().padding(start = 16.dp, end = 16.dp)) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        if (userCount > 0) {
+                            val user = userList.value[index % userCount]
+                            UserAvatarView(user, userCount)
+                        } else {
+                            UserAvatarView()
+                        }
+                    }
+                }
+            }
+
             if (userCount > 1) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterEnd) {
                     IconButton(
@@ -210,24 +229,6 @@ class NavigationDrawerFragment : BaseComposeFragment() {
                             tint = Color.White,
                             contentDescription = ""
                         )
-                    }
-                }
-            }
-
-            AnimatedContent(
-                targetState = activeIndex,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(160.dp),
-            ) { index ->
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        if (userCount > 0) {
-                            val user = userList.value[index % userCount]
-                            UserAvatarView(user, userCount)
-                        } else {
-                            UserAvatarView()
-                        }
                     }
                 }
             }
