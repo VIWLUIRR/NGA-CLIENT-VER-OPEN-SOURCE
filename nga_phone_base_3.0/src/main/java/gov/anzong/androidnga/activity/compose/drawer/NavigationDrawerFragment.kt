@@ -220,11 +220,10 @@ class NavigationDrawerFragment : BaseComposeFragment() {
                     .fillMaxWidth()
                     .height(160.dp),
             ) { index ->
-                val userCount = userList.value.size
                 Box(modifier = Modifier.fillMaxSize()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         if (userCount > 0) {
-                            val user = userList.value[index]
+                            val user = userList.value[index % userCount]
                             UserAvatarView(user, userCount)
                         } else {
                             UserAvatarView()
