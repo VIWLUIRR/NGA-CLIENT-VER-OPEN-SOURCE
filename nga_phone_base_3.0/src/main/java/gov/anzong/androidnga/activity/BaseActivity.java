@@ -1,7 +1,10 @@
 package gov.anzong.androidnga.activity;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -39,6 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private boolean mToolbarEnabled;
 
+    private boolean mComposeEnabled;
+
+    private int mNaviBarHeight;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mConfig = PhoneConfiguration.getInstance();
@@ -47,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ThemeManager.getInstance().initializeWebTheme(this);
 
         try {
-            if (ThemeManager.getInstance().isNightMode()) {
+            if (ThemeManager.getInstance().isNightMode() && !mComposeEnabled) {
                 getWindow().setNavigationBarColor(ContextUtils.getColor(R.color.background_color));
             }
         } catch (Exception e) {
@@ -56,9 +63,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         enableEdge2Edge();
     }
 
+    public void setComposeEnabled(boolean composeEnabled) {
+        mComposeEnabled = composeEnabled;
+    }
+
     private void enableEdge2Edge() {
         View contentView = findViewById(android.R.id.content);
-        if (mToolbarEnabled && contentView != null) {
+        if (mToolbarEnabled && !mComposeEnabled && contentView != null) {
             ViewCompat.setOnApplyWindowInsetsListener(contentView, new OnApplyWindowInsetsListener() {
                 @NonNull
                 @Override
@@ -73,12 +84,32 @@ public abstract class BaseActivity extends AppCompatActivity {
                         parent.addView(statusView, 0);
 
                         Insets navaBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+                        mNaviBarHeight = navaBars.bottom;
                         contentView.setPadding(0, 0, 0, navaBars.bottom);
                     }
                     return insets;
                 }
             });
         }
+    }
+
+    // Android15上开启EdgeToEdge后adjustResize会失效，这里临时做下兼容
+    protected void compatActivityAdjustResize(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            return;
+        }
+        View content = ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+        final Rect r = new Rect();
+        content.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            content.getWindowVisibleDisplayFrame(r);
+            int screenHeight = content.getRootView().getHeight();
+            int keyboardHeight = screenHeight - r.bottom - mNaviBarHeight;
+            if (keyboardHeight > screenHeight / 4) { // 键盘高度超过屏幕1/4
+                content.setPadding(0, 0, 0, keyboardHeight);
+            } else {
+                content.setPadding(0, 0, 0, 0);
+            }
+        });
     }
 
     protected void setToolbarEnabled(boolean enabled) {
