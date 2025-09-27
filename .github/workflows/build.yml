@@ -22,6 +22,9 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
+    - name: Install Android Build Tools
+      run: |
+        echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;29.0.3"
     - name: Build APK
       run: ./gradlew assembleDebug
     - uses: r0adkll/sign-android-release@v1
