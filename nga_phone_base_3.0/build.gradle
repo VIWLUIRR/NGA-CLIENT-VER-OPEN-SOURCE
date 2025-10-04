@@ -190,4 +190,6 @@ dependencies {
 
     // paging
     implementation "androidx.paging:paging-compose:$paging_version"
+
+    testImplementation 'junit:junit:4.13.2'
 }

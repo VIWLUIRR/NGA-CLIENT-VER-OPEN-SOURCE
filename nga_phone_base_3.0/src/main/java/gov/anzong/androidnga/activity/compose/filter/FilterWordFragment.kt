@@ -33,11 +33,12 @@ import sp.phone.common.User
 class FilterWordFragment : BaseComposeFragment() {
 
     private val viewModel: FilterWordViewModel by lazy {
-        ViewModelProvider(this).get(FilterWordViewModel::class.java)
+        ViewModelProvider(this)[FilterWordViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requireActivity().title = "屏蔽规则"
+        viewModel.requestFilterList()
         super.onCreate(savedInstanceState)
     }
 
@@ -62,23 +63,30 @@ class FilterWordFragment : BaseComposeFragment() {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    Row(modifier = Modifier.clickable {
-                        showAddFilterDialog(filterState.addAction)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "新增",
-                        )
-                        Text(text = "新增", fontSize = 14.sp)
+            if (filterState.addAction != null) {
+                Row(
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.clickable {
+                                showAddFilterDialog(filterState.addAction)
+                            }) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "新增",
+                            )
+                            Text(text = "新增", fontSize = 14.sp)
+                        }
+                    }
+                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        Text(text = "长按子项可删除", fontSize = 14.sp, color = Color.Gray)
                     }
                 }
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    Text(text = "长按子项可删除", fontSize = 14.sp, color = Color.Gray)
-                }
             }
-            Row(modifier = Modifier.padding(bottom = 16.dp, top = 16.dp)) {
+            Row(modifier = Modifier.padding(bottom = 16.dp)) {
                 if (!filterState.tips.isNullOrEmpty()) {
                     Text(text = filterState.tips!!, color = Color.Gray)
                 }
