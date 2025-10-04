@@ -3,7 +3,6 @@ package gov.anzong.androidnga.activity.compose.filter
 import com.alibaba.fastjson.JSON
 import gov.anzong.androidnga.base.kv.DataStore
 import gov.anzong.androidnga.base.util.PreferenceUtils
-import sp.phone.common.FilterKeyword
 import sp.phone.common.User
 
 object FilterManager {
@@ -88,7 +87,8 @@ object FilterManager {
     }
 
     fun addFilterWord(word: String) {
-        val filterWord = FilterKeyword(word)
+        val filterWord =
+            FilterKeyword(word)
         if (wordFilterList.contains(filterWord)) {
             return
         } else {
@@ -98,7 +98,8 @@ object FilterManager {
     }
 
     fun removeFilterWord(word: String) {
-        val filterWord = FilterKeyword(word)
+        val filterWord =
+            FilterKeyword(word)
         if (wordFilterList.remove(filterWord)) {
             filterDataStore.putData(FILTER_WORD_KEY, JSON.toJSONString(wordFilterList))
         }

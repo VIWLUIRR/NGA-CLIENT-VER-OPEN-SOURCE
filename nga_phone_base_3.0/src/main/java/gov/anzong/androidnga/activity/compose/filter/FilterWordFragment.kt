@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.justwen.androidnga.ui.compose.BaseComposeFragment
 import com.justwen.androidnga.ui.compose.widget.TabLayoutWithPager
-import sp.phone.common.FilterKeyword
 import sp.phone.common.User
 
 class FilterWordFragment : BaseComposeFragment() {

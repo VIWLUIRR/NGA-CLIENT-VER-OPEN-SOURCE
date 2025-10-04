@@ -13,11 +13,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import gov.anzong.androidnga.activity.compose.filter.FilterManager;
-import sp.phone.common.FilterKeyword;
-import sp.phone.common.FilterKeywordsManagerImpl;
+import gov.anzong.androidnga.activity.compose.filter.FilterKeyword;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
-import sp.phone.common.UserManagerImpl;
 import sp.phone.http.bean.TopicListBean;
 import sp.phone.mvp.model.entity.SubBoard;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
@@ -79,6 +77,7 @@ public class TopicConvertFactory {
 //                            });
 //                }).collect(Collectors.toList())
 //               );
+
 
         Iterator<ThreadPageInfo> iterator = data.getThreadPageList().iterator();
 

@@ -52,15 +52,9 @@ public interface UserManager {
 
     void addToBlackList(String authorName, String authorId);
 
-    void addToBlackList(User user);
-
     void removeFromBlackList(String authorId);
 
     boolean checkBlackList(String authorId);
-
-    List<User> getBlackList();
-
-    void removeAllBlackList();
 
     void putAvatarUrl(String uid, String url);
 

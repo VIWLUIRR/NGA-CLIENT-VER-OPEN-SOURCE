@@ -6,7 +6,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import gov.anzong.androidnga.arouter.ARouterConstants
 import gov.anzong.androidnga.base.util.ToastUtils
 import okhttp3.internal.toImmutableList
-import sp.phone.common.FilterKeyword
 import sp.phone.common.User
 
 class FilterState<T>(
