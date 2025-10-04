@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import gov.anzong.androidnga.activity.compose.filter.FilterManager;
 import sp.phone.common.FilterKeyword;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PhoneConfiguration;
@@ -81,8 +82,8 @@ public class TopicConvertFactory {
 
         Iterator<ThreadPageInfo> iterator = data.getThreadPageList().iterator();
 
-        List<User> blackList = UserManagerImpl.getInstance().getBlackList();
-        List<FilterKeyword> filterKeywords = FilterKeywordsManagerImpl.getInstance().getKeywords();
+        List<User> blackList = FilterManager.INSTANCE.getUserFilterList();
+        List<FilterKeyword> filterKeywords = FilterManager.INSTANCE.getWordFilterList();
 
         while (iterator.hasNext()) {
             ThreadPageInfo pageInfo = iterator.next();

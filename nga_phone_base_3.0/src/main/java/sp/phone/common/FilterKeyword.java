@@ -1,5 +1,7 @@
 package sp.phone.common;
 
+import androidx.annotation.Nullable;
+
 import gov.anzong.androidnga.common.base.JavaBean;
 
 public class FilterKeyword implements JavaBean {
@@ -11,6 +13,11 @@ public class FilterKeyword implements JavaBean {
   public FilterKeyword(String keyword) {
     this.keyword = keyword;
     this.enabled = true;
+  }
+
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    return obj instanceof FilterKeyword && ((FilterKeyword) obj).getKeyword().equals(keyword);
   }
 
   public String getKeyword() { return keyword; }

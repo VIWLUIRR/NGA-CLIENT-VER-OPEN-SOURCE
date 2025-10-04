@@ -43,7 +43,8 @@ open class BaseComposeFragment : Fragment() {
     }
 
     open fun getTopAppBarData(): TopAppBarData {
-        val topAppBarData = TopAppBarData("app")
+        val topAppBarData = TopAppBarData(requireActivity().title.toString())
+        topAppBarData.navigationIconAction = { requireActivity().finish() }
         return topAppBarData
     }
 

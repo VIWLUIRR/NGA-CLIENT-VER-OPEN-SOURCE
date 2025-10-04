@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.anzong.androidnga.activity.compose.filter.FilterManager;
 import gov.anzong.androidnga.common.PreferenceKey;
 
 import com.justwent.androidnga.bu.UserManager;
@@ -188,37 +189,40 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public void addToBlackList(String authorName, String authorId) {
-        for (int i = 0; i < mBlackList.size(); i++) {
-            sp.phone.common.User user = mBlackList.get(i);
-            if (user.getUserId().equals(authorId)) {
-                return;
-            }
-        }
-        User user = new User();
-        user.setUserId(authorId);
-        user.setNickName(authorName);
-        mBlackList.add(user);
-        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+        //for (int i = 0; i < mBlackList.size(); i++) {
+        //    sp.phone.common.User user = mBlackList.get(i);
+        //    if (user.getUserId().equals(authorId)) {
+        //        return;
+        //    }
+        //}
+        //User user = new User();
+        //user.setUserId(authorId);
+        //user.setNickName(authorName);
+        //mBlackList.add(user);
+        //mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+        FilterManager.INSTANCE.addFilterUser(authorName,authorId);
     }
 
     @Override
     public void addToBlackList(User user) {
-        if (!mBlackList.contains(user)) {
-            mBlackList.add(user);
-        }
-        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+        //if (!mBlackList.contains(user)) {
+        //    mBlackList.add(user);
+        //}
+        //mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+        FilterManager.INSTANCE.addFilterUser(user);
     }
 
     @Override
     public void removeFromBlackList(String authorId) {
-        for (int i = 0; i < mBlackList.size(); i++) {
-            User user = mBlackList.get(i);
-            if (user.getUserId().equals(authorId)) {
-                mBlackList.remove(i);
-                mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
-                return;
-            }
-        }
+        //for (int i = 0; i < mBlackList.size(); i++) {
+        //    User user = mBlackList.get(i);
+        //    if (user.getUserId().equals(authorId)) {
+        //        mBlackList.remove(i);
+        //        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+        //        return;
+        //    }
+        //}
+        FilterManager.INSTANCE.removeFilterUser(authorId);
     }
 
     @Override
@@ -228,12 +232,12 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public boolean checkBlackList(String authorId) {
-        for (User user : mBlackList) {
-            if (user.getUserId().equals(authorId)) {
-                return true;
-            }
-        }
-        return false;
+        //for (User user : mBlackList) {
+        //    if (user.getUserId().equals(authorId)) {
+        //        return true;
+        //    }
+        //}
+        return FilterManager.INSTANCE.filerByUser(authorId);
     }
 
     @Override
