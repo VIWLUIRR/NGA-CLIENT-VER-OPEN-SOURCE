@@ -169,7 +169,7 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public boolean checkBlackList(String authorId) {
-        return FilterManager.INSTANCE.filerByUser(authorId);
+        return FilterManager.INSTANCE.filterUserById(authorId);
     }
 
 

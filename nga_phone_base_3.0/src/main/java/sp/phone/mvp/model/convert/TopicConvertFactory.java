@@ -79,32 +79,8 @@ public class TopicConvertFactory {
 //               );
 
 
-        Iterator<ThreadPageInfo> iterator = data.getThreadPageList().iterator();
+        FilterManager.INSTANCE.filterTopic(data.getThreadPageList());
 
-        List<User> blackList = FilterManager.INSTANCE.getUserFilterList();
-        List<FilterKeyword> filterKeywords = FilterManager.INSTANCE.getWordFilterList();
-
-        while (iterator.hasNext()) {
-            ThreadPageInfo pageInfo = iterator.next();
-            boolean removed = false;
-            for (FilterKeyword keyword : filterKeywords) {
-                if (keyword.isEnabled() && pageInfo.getSubject().contains(keyword.getKeyword())) {
-                    iterator.remove();
-                    removed = true;
-                    break;
-                }
-            }
-            if (removed) {
-                continue;
-            }
-            for (User user : blackList) {
-                if (Objects.equals(pageInfo.getAuthor(), user.getNickName())) {
-                    iterator.remove();
-                    break;
-                }
-            }
-
-        }
     }
 
     private void sort(TopicListInfo listInfo) {

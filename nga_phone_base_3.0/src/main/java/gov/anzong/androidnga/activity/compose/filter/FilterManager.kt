@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON
 import gov.anzong.androidnga.base.kv.DataStore
 import gov.anzong.androidnga.base.util.PreferenceUtils
 import sp.phone.common.User
+import sp.phone.mvp.model.entity.ThreadPageInfo
 
 object FilterManager {
 
@@ -54,15 +55,6 @@ object FilterManager {
         }
     }
 
-    fun filerByUser(uid: String): Boolean {
-        for (user in userFilterList) {
-            if (user.userId == uid) {
-                return true
-            }
-        }
-        return false
-    }
-
     fun addFilterUser(userName: String, uid: String) {
         addFilterUser(User(uid, userName))
     }
@@ -103,6 +95,37 @@ object FilterManager {
         if (wordFilterList.remove(filterWord)) {
             filterDataStore.putData(FILTER_WORD_KEY, JSON.toJSONString(wordFilterList))
         }
+    }
+
+    private fun filterWord(subject: String): Boolean {
+        for (keyword in wordFilterList) {
+            if (keyword.match(subject)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun filterUserByName(author: String): Boolean {
+        for (user in userFilterList) {
+            if (author == user.nickName) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun filterUserById(uid: String): Boolean {
+        for (user in userFilterList) {
+            if (uid == user.userId) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun filterTopic(threadPageList: MutableList<ThreadPageInfo>) {
+        threadPageList.removeIf { filterUserByName(it.author) || filterWord(it.subject) }
     }
 
 }

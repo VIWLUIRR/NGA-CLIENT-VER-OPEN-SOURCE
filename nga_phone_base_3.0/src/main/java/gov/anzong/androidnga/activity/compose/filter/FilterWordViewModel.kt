@@ -37,7 +37,7 @@ class FilterWordViewModel : ViewModel() {
                 showAction = { showUserProfile(it as User) }
             },
             FilterState<FilterKeyword>("本地关键词屏蔽").apply {
-                tips = "对当前设备所有用户生效，不影响其他设备"
+                tips = "对当前设备所有用户生效，不影响其他设备，支持正则表达式"
                 filterData.value = FilterManager.wordFilterList.toImmutableList()
                 removeAction = { removeLocalFilterWord(it.toString()) }
                 addAction = { addLocalFilterWord(it) }
