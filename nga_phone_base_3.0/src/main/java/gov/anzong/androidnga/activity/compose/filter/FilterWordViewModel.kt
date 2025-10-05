@@ -49,6 +49,10 @@ class FilterWordViewModel : ViewModel() {
 //                addAction = {
 //                    addFilterUser(it)
 //                }
+                showAction = {
+                    val data = it.toString().split("/")
+                    showUserProfile(User(data[0], data[1]))
+                }
             },
             FilterState<String>("官方关键词屏蔽").apply {
                 tips =
