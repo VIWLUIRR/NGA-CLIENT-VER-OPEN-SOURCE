@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.anzong.androidnga.activity.compose.filter.FilterManager;
 import gov.anzong.androidnga.common.PreferenceKey;
 
 import com.justwent.androidnga.bu.UserManager;
@@ -21,10 +22,6 @@ import sp.phone.http.bean.ThreadRowInfo;
 
 
 public class UserManagerImpl implements sp.phone.common.UserManager {
-
-    private List<User> mBlackList;
-
-    private SharedPreferences mPrefs;
 
     private SharedPreferences mAvatarPreferences;
 
@@ -43,26 +40,9 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public void initialize(Context context) {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         mAvatarPreferences = context.getSharedPreferences(PreferenceKey.PREFERENCE_AVATAR, Context.MODE_PRIVATE);
-
-
-        String blackListStr = mPrefs.getString(PreferenceKey.BLACK_LIST, "");
-        if (TextUtils.isEmpty(blackListStr)) {
-            mBlackList = new ArrayList<>();
-        } else {
-            mBlackList = JSON.parseArray(blackListStr, User.class);
-            if (mBlackList == null) {
-                mBlackList = new ArrayList<>();
-            }
-        }
-        transformData();
     }
 
-    private void transformData() {
-        mBlackList.removeIf(user -> user.getUserId() == null);
-    }
 
     @Override
     public int getActiveUserIndex() {
@@ -99,15 +79,6 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public void setAvatarUrl(int userId, String url) {
-        for (User user : mBlackList) {
-            if (user.getUserId().equals(String.valueOf(userId))) {
-                if (user.getAvatarUrl() == null) {
-                    user.setAvatarUrl(url);
-                    commit();
-                }
-                return;
-            }
-        }
         UserManager.INSTANCE.setAvatarUrl(String.valueOf(userId), url);
     }
 
@@ -151,12 +122,6 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
         UserManager.INSTANCE.removeUser(index);
     }
 
-    private void commit() {
-        mPrefs.edit()
-                .putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList))
-                .apply();
-    }
-
     @Override
     public String getCookie() {
         return UserManager.INSTANCE.getCookie(UserManager.INSTANCE.getActiveUser());
@@ -188,37 +153,13 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public void addToBlackList(String authorName, String authorId) {
-        for (int i = 0; i < mBlackList.size(); i++) {
-            sp.phone.common.User user = mBlackList.get(i);
-            if (user.getUserId().equals(authorId)) {
-                return;
-            }
-        }
-        User user = new User();
-        user.setUserId(authorId);
-        user.setNickName(authorName);
-        mBlackList.add(user);
-        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+        FilterManager.INSTANCE.addFilterUser(authorName,authorId);
     }
 
-    @Override
-    public void addToBlackList(User user) {
-        if (!mBlackList.contains(user)) {
-            mBlackList.add(user);
-        }
-        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
-    }
 
     @Override
     public void removeFromBlackList(String authorId) {
-        for (int i = 0; i < mBlackList.size(); i++) {
-            User user = mBlackList.get(i);
-            if (user.getUserId().equals(authorId)) {
-                mBlackList.remove(i);
-                mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
-                return;
-            }
-        }
+        FilterManager.INSTANCE.removeFilterUser(authorId);
     }
 
     @Override
@@ -228,24 +169,9 @@ public class UserManagerImpl implements sp.phone.common.UserManager {
 
     @Override
     public boolean checkBlackList(String authorId) {
-        for (User user : mBlackList) {
-            if (user.getUserId().equals(authorId)) {
-                return true;
-            }
-        }
-        return false;
+        return FilterManager.INSTANCE.filterUserById(authorId);
     }
 
-    @Override
-    public List<User> getBlackList() {
-        return mBlackList;
-    }
-
-    @Override
-    public void removeAllBlackList() {
-        mBlackList.clear();
-        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
-    }
 
     @Override
     public void putAvatarUrl(String uid, String url) {
