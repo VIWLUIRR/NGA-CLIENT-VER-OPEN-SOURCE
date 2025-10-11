@@ -1,59 +1,24 @@
-package gov.anzong.androidnga.base.util;
+package gov.anzong.androidnga.base.util
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.os.Build;
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 
 /**
  * Created by Justwen on 2017/7/16.
  */
-
-public class DeviceUtils {
-
-    private static final String DEVICE_NAME_MEIZU = "Meizu";
-
-    public static boolean isGreaterEqual_6_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-    }
-
-    public static boolean isGreaterEqual_7_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
-    }
-
-    public static boolean isMeizu() {
-        return DEVICE_NAME_MEIZU.equalsIgnoreCase(android.os.Build.MANUFACTURER);
-    }
-
-    public static boolean isGreaterEqual_8_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
-    }
-
-    public static boolean isGreaterEqual_9_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
-    }
-
-    public static boolean isGreaterEqual_10_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
-    }
-
-    public static boolean isWifiConnected(Context context) {
+object DeviceUtils {
+    @JvmStatic
+    fun isWifiConnected(context: Context): Boolean {
         try {
-            ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (conMan != null) {
-                NetworkCapabilities capabilities = conMan.getNetworkCapabilities(conMan.getActiveNetwork());
-                if (capabilities != null) {
-                    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
-                }
+            val conMan = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val capabilities = conMan.getNetworkCapabilities(conMan.activeNetwork)
+            capabilities?.let {
+                return it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            // ignore
         }
-        return false;
-    }
-
-    public static boolean isLandscape(Context context) {
-        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        return false
     }
 }
